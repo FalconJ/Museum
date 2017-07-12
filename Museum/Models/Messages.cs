@@ -28,5 +28,11 @@ namespace Museum.Models
 
         public const string DatabaseAccessIssuesMessage =
             @"Sorry, I'm having trouble figuring that out. Try again in a little while.";
+
+        public const string UnableToGetRecommendationMessage =
+            @"Sorry, I'm having trouble getting a recommendation from Yelp. Try again in a little while.";
+
+        public readonly static string RecommendationFormattingMessage =
+            "You should give {0} a try!" + Environment.NewLine + "- Rating: {1}/5 " + Environment.NewLine + "- Location: {2} " + Environment.NewLine + "- Phone: {3} " + Environment.NewLine;
     }
 }

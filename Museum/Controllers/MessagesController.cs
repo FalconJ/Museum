@@ -16,10 +16,16 @@ namespace Museum
     public class MessagesController : ApiController
     {
         private readonly IFirebaseService _service;
+        private readonly IYelpService _yelpService;
 
         public MessagesController()
         {
-            _service = new FirebaseService(Environment.GetEnvironmentVariable("DatabaseEndpoint", EnvironmentVariableTarget.User));
+            _service = new FirebaseService(Environment.GetEnvironmentVariable("DatabaseEndpoint"));
+            _yelpService = new YelpService(
+                Environment.GetEnvironmentVariable("YelpClientId"),
+                Environment.GetEnvironmentVariable("YelpClientSecret"),
+                Environment.GetEnvironmentVariable("YelpPreferredLocation")
+                );
         }
 
         /// <summary>
@@ -55,6 +61,10 @@ namespace Museum
                     {
                         await ReplyWithUnrecognizablePlaceAsync(activity, connector);
                     }
+                }
+                else if(Regex.IsMatch(msg, "where we should go|recommendation|pick for me", RegexOptions.IgnoreCase))
+                {
+                    await ReplyWithRandomLocationRecommendation(activity, connector);
                 }
                 // If the user mentions anything related to the list, give it to them
                 else if (Regex.IsMatch(msg, "show|all|list all", RegexOptions.IgnoreCase))
@@ -132,6 +142,32 @@ namespace Museum
         {
             var reply = activity.CreateReply(Messages.DefaultResponseMessage);
             return await connector.Conversations.ReplyToActivityAsync(reply);
+        }
+
+        private async Task<ResourceResponse> ReplyWithRandomLocationRecommendation(Activity activity, ConnectorClient connector)
+        {
+            try
+            {
+                var previouslyVisitedLocations = await _service.GetAllVisitedLocationsAsync();
+                var recommendation = await _yelpService.GetRandomUnvisitedPlacesAsync(previouslyVisitedLocations);
+
+                var recommendationMessage = activity.CreateReply(GetFormattedRecommendation(recommendation));
+                return await connector.Conversations.ReplyToActivityAsync(recommendationMessage);
+            }
+            catch
+            {
+                var failedMessage = activity.CreateReply(Messages.UnableToGetRecommendationMessage);
+                return await connector.Conversations.ReplyToActivityAsync(failedMessage);
+            }
+        }
+
+        private string GetFormattedRecommendation(YelpBusiness choice)
+        {
+            return string.Format(Messages.RecommendationFormattingMessage,
+                choice.Name,
+                choice.Rating,
+                choice.Location.FullAddress,
+                choice.phoneNumber);
         }
 
         private Activity HandleSystemMessage(Activity message)
