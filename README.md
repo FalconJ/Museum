@@ -16,5 +16,5 @@ At present, Third Thursday Bot supports the following commands:
 - **recommendation** - Get a random recommendation in the area.
 
 ## Created with
- - **Create a Microsoft Bot Framework Account** - This bot relies on [the Microsoft Bot Framework](https://dev.botframework.com/) for its supported integrations, which can make getting started and actually using a bot a breeze.
- - **Set up Firebase** - This example uses [Firebase](https://firebase.google.com/) as a database, which can be set up in a matter of minutes.
+ - **Microsoft Bot Framework** - This bot relies on [the Microsoft Bot Framework](https://dev.botframework.com/) for its supported integrations, which can make getting started and actually using a bot a breeze.
+ - **Firebase** - This example uses [Firebase](https://firebase.google.com/) as a database, which can be set up in a matter of minutes.
