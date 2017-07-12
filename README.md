@@ -10,8 +10,8 @@ Rules:
 
 At present, Third Thursday Bot supports the following commands:
 
-- **show all** - Lists all of the previous Third Thursday selections.
-- **have we been to {restaurant}?** - Indicates if specific restaurant has been chosen.
+- **show all** - Lists all of the previous elections.
+- **have we been to {place}?** - Indicates if specific place has been chosen before.
 - **who’s next** - Indicates who has the next selection.
 - **recommendation** - Get a random recommendation in the area.
 
