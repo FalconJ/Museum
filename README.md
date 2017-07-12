@@ -1,6 +1,6 @@
 # Museum Bot
 ## What is "Museum"?
-The reasoning for this bot is that my friends and I have been doing a monthly gathering to museums, galleries, restaurants, etc.
+Is a bot that helps us on our monthly gathering, it help us know the previous locations we have gone, who's next to decide and recommendations for new places.
 
 Rules:
  - Each month a different member of the group gets to choose where we all go.
