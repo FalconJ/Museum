@@ -44,8 +44,16 @@ namespace Museum
 
                         if(visitedPlace != null)
                         {
-                            await 
+                            await ReplyWithVisitedPlaceAsync(visitedPlace, activity, connector);
                         }
+                        else
+                        {
+                            await ReplyWithUnchosenPlaceAsync(place, activity, connector);
+                        }
+                    }
+                    else
+                    {
+                        await ReplyWithUnrecognizablePlaceAsync(activity, connector);
                     }
                 }
                 // If the user mentions anything related to the list, give it to them
@@ -89,9 +97,27 @@ namespace Museum
             }
         }
 
-        private async Task<ResourceResponse> ReplyWithVisitedPlaceAsync(string place, Activity activity, ConnectorClient connector)
+        private async Task<ResourceResponse> ReplyWithVisitedPlaceAsync(Places place, Activity activity, ConnectorClient connector)
         {
+            var replyMessage = string.Format(Messages.PreviouslyChosenResturantFormattingMessage, place.Location, place.PickedBy, place.Date);
+            var reply = activity.CreateReply(replyMessage);
 
+            return await connector.Conversations.ReplyToActivityAsync(reply);
+        }
+
+        private async Task<ResourceResponse> ReplyWithUnchosenPlaceAsync(string place, Activity activity, ConnectorClient connector)
+        {
+            var replyMessage = string.Format(Messages.UnchosenRestaurantFormattingMessage, place);
+            var reply = activity.CreateReply(replyMessage);
+
+            return await connector.Conversations.ReplyToActivityAsync(reply);
+        }
+
+        private async Task<ResourceResponse> ReplyWithUnrecognizablePlaceAsync(Activity activity, ConnectorClient connector)
+        {
+            var reply = activity.CreateReply(Messages.UnrecognizableRestaurantMessage);
+
+            return await connector.Conversations.ReplyToActivityAsync(reply);
         }
 
         private async Task<ResourceResponse> ReplyWithPlaceListAsync(Activity activity, ConnectorClient connector)

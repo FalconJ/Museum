@@ -23,6 +23,9 @@ namespace Museum.Models
         public const string PreviouslyChosenResturantFormattingMessage =
             @"{0} was chosen by {1} in {2:MMMM} of {2:yyyy}.";
 
+        public const string UnrecognizableRestaurantMessage =
+            @"Sorry, I couldn't figure out what restaurant you were looking for. Try again.";
+
         public const string DatabaseAccessIssuesMessage =
             @"Sorry, I'm having trouble figuring that out. Try again in a little while.";
     }
